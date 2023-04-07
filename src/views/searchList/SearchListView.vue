@@ -35,8 +35,14 @@ import ShopInfo from '@/components/ShopInfo.vue'
 // 获取搜索列表相关逻辑
 const useSearchListEffect = () => {
   const searchList = ref([])
+  const history = ref(JSON.parse(localStorage.history || '[]'))
 
   const getSearchList = async (keyword) => {
+    const hasValue = history.value.find(item => item === keyword)
+    if (!hasValue && (keyword.trim() !== '')) {
+      history.value.push(keyword)
+      localStorage.history = JSON.stringify(history.value)
+    }
     const result = await get('/api/shop/search/searchlist', {
       keyword
     })
@@ -137,17 +143,30 @@ export default {
 }
 
 .products {
-  width: 100%;
+  width: 100vw;
   height: 13.1rem;
   padding: 0 1.8rem 0 9rem;
   margin-bottom: 1.2rem;
+  overflow: hidden;
 
   .items-layout {
     width: 100%;
     height: 100%;
+    overflow-x: auto;
     display: flex;
     column-gap: 1.6rem;
     border-bottom: .1rem solid $content-bgColor;
+
+    /* 隐藏滚动条 */
+    scrollbar-width: none;
+    /* firefox */
+    -ms-overflow-style: none;
+
+    /* IE 10+ */
+    &::-webkit-scrollbar {
+      display: none;
+      /* Chrome Safari */
+    }
   }
 
   &__item {

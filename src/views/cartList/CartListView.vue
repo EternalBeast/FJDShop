@@ -50,10 +50,10 @@ const useCartListEffect = () => {
 
   const listLength = Object.keys(allCartList.value).length
 
-  const hiddenList = ref([])
+  const hiddenList = ref({})
 
   for (const shop in allCartList.value) {
-    hiddenList.value[Number(shop)] = true
+    hiddenList.value[shop] = true
   }
 
   const handleProductsHide = (index) => {

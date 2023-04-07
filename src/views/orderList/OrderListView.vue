@@ -11,7 +11,7 @@
       </div>
       <div class="order__info">
         <div class="order__info__picbox">
-          <img v-for="(innerItem, innerIndex) in item.products" class="order__info__img" :src="innerItem.product.img"
+          <img v-for="(innerItem, innerIndex) in item.products" class="order__info__img" :src="innerItem.product.imgUrl"
             :key="innerIndex">
         </div>
         <div class="order__info__text">

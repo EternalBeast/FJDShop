@@ -37,7 +37,7 @@
 import { ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import ToastCompo, { useToastEffect } from '@/components/ToastCompo.vue'
-import { post } from '@/utils/request'
+import { post, patch } from '@/utils/request'
 
 // 点击回退逻辑
 const useBackRouterEffect = (router) => {
@@ -52,13 +52,13 @@ const useBackRouterEffect = (router) => {
 const saveAddressEffect = (address, router, isEdit, handleToast) => {
   const saveAddress = async (address) => {
     const result = await post('/api/user/address', address.value)
-    if (result?.errno === 0 && result?.data.length) {
+    if (result?.errno === 0 && result?.data) {
       router.back()
     }
   }
 
   const updateAddress = async (address) => {
-    const result = await post(`/api/user/address/${address.value._id}`, address.value)
+    const result = await patch(`/api/user/address/${address.value._id}`, address.value)
     if (result?.errno === 0) {
       router.back()
     }

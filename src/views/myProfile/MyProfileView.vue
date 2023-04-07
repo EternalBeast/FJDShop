@@ -6,31 +6,31 @@
       <div class="top__infobox">
         <img src="./images/avatar.jpg" alt="" class="top__infobox__avator">
         <div class="top__infobox__name">
-          热心市民李先生
+          {{ user.username }}
           <div class="star">
             <div class="star__imgbox">
               <img src="./images/star.png" class="star__imgbox__img">
             </div>
-            <div class="star__text">16</div>
+            <div class="star__text">{{ user.star }}</div>
           </div>
         </div>
-        <p class="top__infobox__id">ID: 1069643013</p>
+        <p class="top__infobox__id">ID: {{ user.id }}</p>
         <div class="top__infobox__own">
           <div class="top__infobox__own__item">
             红包
-            <span class="itemcount">218</span>
+            <span class="itemcount">{{ user.redPacket }}</span>
           </div>
           <div class="top__infobox__own__item">
             优惠券
-            <span class="itemcount">12张</span>
+            <span class="itemcount">{{ user.coupon }}张</span>
           </div>
           <div class="top__infobox__own__item">
             鲜豆
-            <span class="itemcount">88</span>
+            <span class="itemcount">{{ user.beans }}</span>
           </div>
           <div class="top__infobox__own__item">
             白条
-            <span class="itemcount">1000</span>
+            <span class="itemcount">{{ user.blankNote }}</span>
           </div>
         </div>
       </div>
@@ -65,6 +65,21 @@
 <script>
 import { useRouter } from 'vue-router'
 import DockerView from '../../components/DockerView.vue'
+import { get } from '@/utils/request'
+import { ref } from 'vue'
+
+const getUserInfoEffect = () => {
+  const user = ref({})
+
+  const getUserInfo = async () => {
+    const result = await get('/api/user/info')
+    if (result.errno === 0 && result?.data) {
+      user.value = result.data
+    }
+  }
+
+  return { user, getUserInfo }
+}
 
 export default {
   name: 'MyProfileView',
@@ -75,7 +90,10 @@ export default {
       router.push({ name: 'AddressManage' })
     }
 
-    return { toAddressManage }
+    const { user, getUserInfo } = getUserInfoEffect()
+    getUserInfo()
+
+    return { user, toAddressManage }
   }
 }
 </script>

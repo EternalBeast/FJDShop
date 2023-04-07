@@ -41,7 +41,7 @@ const useOrderEffect = (shopId, addressId) => {
       const product = inCartList.value[i]
       // vuex中，当 count <= 0 时，product.check = false
       if (product.check) {
-        products.push({ id: parseInt(product._id), num: product.count })
+        products.push({ id: product._id, num: product.count })
       }
     }
 

@@ -57,7 +57,7 @@ export default {
       const searchValue = e.target.value
       if (!searchValue) return
       const hasValue = history.value.find(item => item === searchValue)
-      if (!hasValue) {
+      if (!hasValue && (searchValue.trim() !== '')) {
         history.value.push(searchValue)
         localStorage.history = JSON.stringify(history.value)
       }
